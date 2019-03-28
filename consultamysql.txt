@@ -1,0 +1,4 @@
+
+select count(*) as cantidad, p.nombres    as nombreCompleto from publicador_seguidor 
+ps inner join persona p on ps.id_publicador = p.idPersona 
+GROUP by nombreCompleto order by nombreCompleto asc
