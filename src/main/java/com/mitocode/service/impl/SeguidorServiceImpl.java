@@ -12,6 +12,7 @@ import com.mitocode.dao.ISeguidorDAO;
 import com.mitocode.model.Persona;
 import com.mitocode.model.PublicadorSeguidor;
 import com.mitocode.service.ISeguidorService;
+import com.mitocode.util.ReporteSeguidor;
 
 @Named
 public class SeguidorServiceImpl implements Serializable, ISeguidorService{
@@ -78,6 +79,11 @@ public class SeguidorServiceImpl implements Serializable, ISeguidorService{
 	@Override
 	public List<PublicadorSeguidor> listarSeguidos(Persona per) {
 		return dao.listarSeguidos(per);
+	}
+
+	@Override
+	public List<ReporteSeguidor> listarSeguidores() {
+		return dao.listarSeguidores();
 	}
 	
 	

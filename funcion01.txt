@@ -1,0 +1,34 @@
+drop procedure if exists fn_listarSeguidores;
+DELIMITER $$
+CREATE PROCEDURE fn_listarSeguidores()
+BEGIN
+
+-- variables donde almacenar lo que nos traemos del SELECT
+DECLARE cantidad varchar(50);
+DECLARE nombreCompleto varchar(50);
+
+-- variable para controlar el fin del bucle
+DECLARE fin INTEGER DEFAULT 0;
+
+-- EL SELECT QUE VAMOS A EJECUTAR
+DECLARE publicador_seguidor_cursor CURSOR FOR 
+	select count(*) as cantidad, concat_ws(' ', p.nombres, p.apellidos)  as nombreCompleto from publicador_seguidor 
+ps inner join persona p on ps.id_publicador = p.idPersona 
+GROUP by nombreCompleto order by nombreCompleto asc;
+	
+-- Condicion de salida
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin =1;
+OPEN publicador_seguidor_cursor;
+get_publicador: LOOP
+	FETCH publicador_seguidor_cursor INTO cantidad, nombreCompleto;
+	IF fin = 1 THEN
+		LEAVE get_publicador;
+	END IF;
+	
+	SELECT cantidad, nombreCompleto;
+	
+	END LOOP get_publicador;
+	
+	CLOSE publicador_seguidor_cursor;
+END$$
+DELIMITER;

@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import com.mitocode.dao.ISeguidorDAO;
 import com.mitocode.model.Persona;
 import com.mitocode.model.PublicadorSeguidor;
+import com.mitocode.util.ReporteSeguidor;
 
 @Stateless
 public class SeguidorDAOImpl implements ISeguidorDAO, Serializable{
@@ -90,5 +91,25 @@ public class SeguidorDAOImpl implements ISeguidorDAO, Serializable{
 		
 		return lista;
 	}
+
+	@Override
+	public List<ReporteSeguidor> listarSeguidores() {
+		List<ReporteSeguidor> lista = new ArrayList<>();
+		
+		try {
+			Query query = em.createNativeQuery("call fn_listar()");
+			List<Object[]> data = query.getResultList();
+		
+			data.forEach( x -> {
+				int cantidad = Integer.parseInt(String.valueOf(x[0]));
+				String publicador = String.valueOf(x[1]);
+				lista.add(new ReporteSeguidor(cantidad, publicador));
+			});
+		} catch (Exception e) {
+			
+		}
+		
+		return lista;
+			}
 
 }

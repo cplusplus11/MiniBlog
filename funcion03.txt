@@ -1,0 +1,4 @@
+create procedure fn_listar()
+select count(*) as cantidad, concat_ws(' ', p.nombres, p.apellidos)  as nombreCompleto from publicador_seguidor 
+ps inner join persona p on ps.id_publicador = p.idPersona 
+GROUP by nombreCompleto order by nombreCompleto asc
